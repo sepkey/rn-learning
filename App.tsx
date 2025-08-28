@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
+import { theme } from "./theme";
 
 export default function App() {
   return (
@@ -6,7 +7,7 @@ export default function App() {
       <View
         style={{
           borderBottomWidth: 1,
-          borderBottomColor: "#2743de",
+          borderBottomColor: theme.colorCelurean,
           paddingHorizontal: 8,
           paddingVertical: 16,
         }}
@@ -20,7 +21,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: theme.colorWhite,
     justifyContent: "center",
   },
 });
