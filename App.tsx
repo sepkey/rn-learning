@@ -5,9 +5,8 @@ import { theme } from "./theme";
 export default function App() {
   return (
     <View style={styles.container}>
-      {/* <View style={[StyleSheet.absoluteFill, { backgroundColor: "purple" }]} /> */}
       <ShoppingListItem name="Coffee" />
-      <ShoppingListItem name="Tea" />
+      <ShoppingListItem name="Tea" isCompleted />
       <ShoppingListItem name="Soda" />
     </View>
   );
