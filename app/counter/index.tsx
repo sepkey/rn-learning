@@ -1,11 +1,12 @@
 import { useRouter } from "expo-router";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Paths } from "../../paths";
 
 export default function CounterScreen() {
   const router = useRouter();
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => router.navigate("/idea")}>
+      <TouchableOpacity onPress={() => router.navigate(Paths.Idea)}>
         <Text style={{ textAlign: "center", marginBottom: 18 }}>
           Go to /idea
         </Text>

@@ -1,19 +1,20 @@
 import { Link } from "expo-router";
 import { StyleSheet, View } from "react-native";
 import ShoppingListItem from "../components/shopping-list-item";
+import { Paths } from "../paths";
 import { theme } from "../theme";
 
 export default function App() {
   return (
     <View style={styles.container}>
       <Link
-        href="/idea"
+        href={Paths.Idea}
         style={{ textAlign: "center", marginBottom: 18, fontSize: 24 }}
       >
         Go to idea
       </Link>
       <Link
-        href="/counter"
+        href={Paths.Counter}
         style={{ textAlign: "center", marginBottom: 18, fontSize: 24 }}
       >
         Go to counter
