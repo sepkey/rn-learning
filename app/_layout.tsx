@@ -2,10 +2,11 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import Feather from "@expo/vector-icons/Feather";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { Tabs } from "expo-router";
+import { theme } from "../theme";
 
 export default function RootLayout() {
   return (
-    <Tabs>
+    <Tabs screenOptions={{ tabBarActiveTintColor: theme.colorCelurean }}>
       <Tabs.Screen
         name="index"
         options={{
