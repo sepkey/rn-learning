@@ -3,8 +3,32 @@ import { StyleSheet, TextInput, View } from "react-native";
 import ShoppingListItem from "../components/shopping-list-item";
 import { theme } from "../theme";
 
+type ShoppingListItemType = {
+  id: string;
+  name: string;
+  isCompleted: boolean;
+};
+
+const initialValue: ShoppingListItemType[] = [
+  { id: "1", name: "Coffee", isCompleted: false },
+  { id: "2", name: "Tea", isCompleted: true },
+  { id: "3", name: "Soda", isCompleted: false },
+];
+
 export default function App() {
+  const [shoppingList, setShoppingList] =
+    useState<ShoppingListItemType[]>(initialValue);
   const [value, setValue] = useState("");
+
+  const handleSubmit = () => {
+    if (!value) return;
+    const newShoppingList = [
+      { id: new Date().toISOString(), name: value, isCompleted: false },
+      ...shoppingList,
+    ];
+    setShoppingList(newShoppingList);
+    setValue("");
+  };
   return (
     <View style={styles.container}>
       <TextInput
@@ -12,13 +36,12 @@ export default function App() {
         placeholder="E.g. Coffee"
         style={styles.textInput}
         onChangeText={setValue}
-        // keyboardType="name-phone-pad" //you can select the keyboard type for the inut
-        returnKeyType="done" //you can change the text of return button
-        onSubmitEditing={() => console.log("submitted")}
+        returnKeyType="done"
+        onSubmitEditing={handleSubmit}
       />
-      <ShoppingListItem name="Coffee" />
-      <ShoppingListItem name="Tea" isCompleted />
-      <ShoppingListItem name="Soda" />
+      {shoppingList.map((itm) => (
+        <ShoppingListItem name={itm.name} isCompleted key={itm.id} />
+      ))}
     </View>
   );
 }
