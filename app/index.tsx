@@ -3,17 +3,19 @@ import { useState } from "react";
 import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
 import ShoppingListItem from "../components/shopping-list-item";
 import { theme } from "../theme";
+import { orderShoppingListItem } from "../utils/order-function";
 
-type ShoppingListItemType = {
+export type ShoppingListItemType = {
   id: string;
   name: string;
   completedAtTimeStamp?: number;
+  lastUpdatedTimestamp: number;
 };
 
 const initialValue: ShoppingListItemType[] = [
-  { id: "1", name: "Coffee" },
-  { id: "2", name: "Tea" },
-  { id: "3", name: "Soda" },
+  { id: "1", name: "Coffee", lastUpdatedTimestamp: 732763236232 },
+  { id: "2", name: "Tea", lastUpdatedTimestamp: 732763236232 },
+  { id: "3", name: "Soda", lastUpdatedTimestamp: 732763236232 },
 ];
 
 export default function App() {
@@ -24,7 +26,11 @@ export default function App() {
   const handleSubmit = () => {
     if (!value) return;
     const newShoppingList = [
-      { id: new Date().toISOString(), name: value },
+      {
+        id: new Date().toISOString(),
+        name: value,
+        lastUpdatedTimestamp: Date.now(),
+      },
       ...shoppingList,
     ];
     setShoppingList(newShoppingList);
@@ -44,6 +50,7 @@ export default function App() {
           completedAtTimeStamp: item.completedAtTimeStamp
             ? undefined
             : Date.now(),
+          lastUpdatedTimestamp: Date.now(),
         };
       }
       return item;
@@ -55,7 +62,7 @@ export default function App() {
   return (
     <FlatList
       // keyExtractor={} // in case we don't have the id
-      data={shoppingList}
+      data={orderShoppingListItem(shoppingList)}
       stickyHeaderIndices={[0]}
       style={styles.container}
       ListHeaderComponent={
