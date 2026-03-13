@@ -1,18 +1,26 @@
 import AntDesign from "@expo/vector-icons/AntDesign";
 import React from "react";
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Alert,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import { theme } from "../theme";
 
 type Props = {
   name: string;
   isCompleted?: boolean;
   onDelete: () => void;
+  onToggleComplete: () => void;
 };
 
 export default function ShoppingListItem({
   name,
   isCompleted = false,
   onDelete,
+  onToggleComplete,
 }: Props) {
   const handleDlete = () => {
     Alert.alert(
@@ -33,11 +41,12 @@ export default function ShoppingListItem({
     );
   };
   return (
-    <View
+    <Pressable
       style={[
         styles.itemContainer,
         isCompleted ? styles.completedContainer : undefined,
       ]}
+      onPress={onToggleComplete}
     >
       <Text
         style={[
@@ -54,7 +63,7 @@ export default function ShoppingListItem({
           color={isCompleted ? theme.colorGrey : theme.colorRed}
         />
       </TouchableOpacity>
-    </View>
+    </Pressable>
   );
 }
 

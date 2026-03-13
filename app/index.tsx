@@ -7,13 +7,13 @@ import { theme } from "../theme";
 type ShoppingListItemType = {
   id: string;
   name: string;
-  isCompleted: boolean;
+  completedAtTimeStamp?: number;
 };
 
 const initialValue: ShoppingListItemType[] = [
-  { id: "1", name: "Coffee", isCompleted: false },
-  { id: "2", name: "Tea", isCompleted: true },
-  { id: "3", name: "Soda", isCompleted: false },
+  { id: "1", name: "Coffee" },
+  { id: "2", name: "Tea" },
+  { id: "3", name: "Soda" },
 ];
 
 export default function App() {
@@ -24,7 +24,7 @@ export default function App() {
   const handleSubmit = () => {
     if (!value) return;
     const newShoppingList = [
-      { id: new Date().toISOString(), name: value, isCompleted: false },
+      { id: new Date().toISOString(), name: value },
       ...shoppingList,
     ];
     setShoppingList(newShoppingList);
@@ -33,6 +33,22 @@ export default function App() {
 
   const handleDelete = (id: string) => {
     const newShoppingList = [...shoppingList].filter((item) => item.id !== id);
+    setShoppingList(newShoppingList);
+  };
+
+  const handleToggleComplete = (id: string) => {
+    const newShoppingList = [...shoppingList].map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          completedAtTimeStamp: item.completedAtTimeStamp
+            ? undefined
+            : Date.now(),
+        };
+      }
+      return item;
+    });
+
     setShoppingList(newShoppingList);
   };
 
@@ -61,8 +77,9 @@ export default function App() {
       renderItem={({ item }) => (
         <ShoppingListItem
           name={item.name}
-          isCompleted
+          isCompleted={!!item.completedAtTimeStamp}
           onDelete={() => handleDelete(item.id)}
+          onToggleComplete={() => handleToggleComplete(item.id)}
         />
       )}
     />
