@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { useState } from "react";
 import { FlatList, StyleSheet, TextInput } from "react-native";
 import ShoppingListItem from "../components/shopping-list-item";
@@ -35,7 +36,7 @@ export default function App() {
       data={shoppingList}
       stickyHeaderIndices={[0]}
       style={styles.container}
-      ListHeaderComponent={() => (
+      ListHeaderComponent={
         <TextInput
           value={value}
           placeholder="E.g. Coffee"
@@ -44,7 +45,7 @@ export default function App() {
           returnKeyType="done"
           onSubmitEditing={handleSubmit}
         />
-      )}
+      }
       contentContainerStyle={styles.contentContainer}
       renderItem={({ item }) => (
         <ShoppingListItem name={item.name} isCompleted />
