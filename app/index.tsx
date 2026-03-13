@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { useState } from "react";
-import { FlatList, StyleSheet, TextInput } from "react-native";
+import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
 import ShoppingListItem from "../components/shopping-list-item";
 import { theme } from "../theme";
 
@@ -46,6 +46,11 @@ export default function App() {
           onSubmitEditing={handleSubmit}
         />
       }
+      ListEmptyComponent={() => (
+        <View style={styles.listEmptyContainer}>
+          <Text>Your shopping list is empty.</Text>
+        </View>
+      )}
       contentContainerStyle={styles.contentContainer}
       renderItem={({ item }) => (
         <ShoppingListItem name={item.name} isCompleted />
@@ -72,5 +77,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     borderRadius: 50,
     backgroundColor: theme.colorWhite,
+  },
+  listEmptyContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginVertical: 18,
   },
 });
