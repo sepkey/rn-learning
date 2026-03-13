@@ -6,22 +6,31 @@ import { theme } from "../theme";
 type Props = {
   name: string;
   isCompleted?: boolean;
+  onDelete: () => void;
 };
 
-export default function ShoppingListItem({ name, isCompleted = false }: Props) {
+export default function ShoppingListItem({
+  name,
+  isCompleted = false,
+  onDelete,
+}: Props) {
   const handleDlete = () => {
-    Alert.alert("Are you sure to do this?", "delete the item", [
-      {
-        text: "Yes",
-        onPress: () => console.log("Ok,deleting"),
-        style: "destructive",
-      },
-      {
-        text: "Cancel",
-        onPress: () => console.log("No,Calncel"),
-        style: "cancel",
-      },
-    ]);
+    Alert.alert(
+      `Are you sure you want to delete ${name}`,
+      "It will be gone for good",
+      [
+        {
+          text: "Yes",
+          onPress: () => onDelete(),
+          style: "destructive",
+        },
+        {
+          text: "Cancel",
+          onPress: () => console.log("No,Cancel"),
+          style: "cancel",
+        },
+      ]
+    );
   };
   return (
     <View

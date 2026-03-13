@@ -30,6 +30,12 @@ export default function App() {
     setShoppingList(newShoppingList);
     setValue("");
   };
+
+  const handleDelete = (id: string) => {
+    const newShoppingList = [...shoppingList].filter((item) => item.id !== id);
+    setShoppingList(newShoppingList);
+  };
+
   return (
     <FlatList
       // keyExtractor={} // in case we don't have the id
@@ -53,7 +59,11 @@ export default function App() {
       )}
       contentContainerStyle={styles.contentContainer}
       renderItem={({ item }) => (
-        <ShoppingListItem name={item.name} isCompleted />
+        <ShoppingListItem
+          name={item.name}
+          isCompleted
+          onDelete={() => handleDelete(item.id)}
+        />
       )}
     />
   );
