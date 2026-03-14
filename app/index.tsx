@@ -1,9 +1,12 @@
 /* eslint-disable prettier/prettier */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
 import ShoppingListItem from "../components/shopping-list-item";
 import { theme } from "../theme";
-import { orderShoppingListItem } from "../utils/order-function";
+import { orderShoppingListItem } from "../utils/helpers";
+import { getFromStorage, saveToStorage } from "../utils/storage";
+
+const storageKey = "shopping-list";
 
 export type ShoppingListItemType = {
   id: string;
@@ -23,6 +26,14 @@ export default function App() {
     useState<ShoppingListItemType[]>(initialValue);
   const [value, setValue] = useState("");
 
+  useEffect(() => {
+    const fetchInit = async () => {
+      const data = await getFromStorage(storageKey);
+      if (data) setShoppingList(data);
+    };
+    fetchInit();
+  }, []);
+
   const handleSubmit = () => {
     if (!value) return;
     const newShoppingList = [
@@ -34,11 +45,13 @@ export default function App() {
       ...shoppingList,
     ];
     setShoppingList(newShoppingList);
+    saveToStorage(storageKey, newShoppingList);
     setValue("");
   };
 
   const handleDelete = (id: string) => {
     const newShoppingList = [...shoppingList].filter((item) => item.id !== id);
+    saveToStorage(storageKey, newShoppingList);
     setShoppingList(newShoppingList);
   };
 
@@ -55,7 +68,7 @@ export default function App() {
       }
       return item;
     });
-
+    saveToStorage(storageKey, newShoppingList);
     setShoppingList(newShoppingList);
   };
 
