@@ -1,10 +1,23 @@
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
+import { useEffect, useState } from "react";
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { theme } from "../../theme";
 import { registerForPushNotification } from "../../utils/register-for-push-notification";
 
 export default function CounterScreen() {
+  const [timeElapsed, setTimeElaped] = useState(0);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setTimeElaped((val) => val + 1);
+    }, 1000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
   const scheduleNotification = async () => {
     const result = await registerForPushNotification();
     if (result === "granted") {
@@ -22,6 +35,7 @@ export default function CounterScreen() {
   };
   return (
     <View style={styles.container}>
+      <Text>{timeElapsed}</Text>
       <TouchableOpacity
         style={styles.button}
         onPress={scheduleNotification}
