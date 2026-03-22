@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import useCountdownState from "../../components/hooks/use-countdown-state";
+import useCountdownState from "../../hooks/use-countdown-state";
 import { theme } from "../../theme";
 
 const fullDateFormat = "LLL d yyy, h:mm aaa";

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getFromStorage } from "../../utils/storage";
+import { getFromStorage } from "../utils/storage";
 
 export const COUNTDOWN_STORAGE_KEY = "taskly-countdown";
 

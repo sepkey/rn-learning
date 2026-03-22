@@ -11,11 +11,11 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import TimeSegment from "../../components/time-segment";
 import useCountdownState, {
   COUNTDOWN_STORAGE_KEY,
   PersistedCountdownState,
-} from "../../components/hooks/use-countdown-state";
-import TimeSegment from "../../components/time-segment";
+} from "../../hooks/use-countdown-state";
 import { theme } from "../../theme";
 import { registerForPushNotification } from "../../utils/register-for-push-notification";
 import { saveToStorage } from "../../utils/storage";
