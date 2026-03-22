@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Duration, intervalToDuration, isBefore } from "date-fns";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
