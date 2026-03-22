@@ -11,28 +11,24 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import useCountdownState, {
+  COUNTDOWN_STORAGE_KEY,
+  PersistedCountdownState,
+} from "../../components/hooks/use-countdown-state";
 import TimeSegment from "../../components/time-segment";
 import { theme } from "../../theme";
 import { registerForPushNotification } from "../../utils/register-for-push-notification";
-import { getFromStorage, saveToStorage } from "../../utils/storage";
+import { saveToStorage } from "../../utils/storage";
 
 type CountdownType = {
   isOverdue: boolean;
   distance: Duration;
 };
 
-const COUNTDOWN_STORAGE_KEY = "taskly-countdown";
-
-type PersistedCountdownState = {
-  currentNotificationId: string | undefined; // to be tracked for canceling
-  completedAtTimestamps: number[]; //for history log
-};
-
 const frequency = 10 * 1000;
 
 export default function CounterScreen() {
-  const [countdownState, setCountdownState] =
-    useState<PersistedCountdownState>();
+  const { countdownState, setCountdownState } = useCountdownState();
   const [status, setStatus] = useState<CountdownType>({
     isOverdue: false,
     distance: {},
@@ -40,15 +36,6 @@ export default function CounterScreen() {
   const [isLoading, setIsLoading] = useState(true);
 
   const lastCompletedAtTimestamp = countdownState?.completedAtTimestamps[0];
-
-  useEffect(() => {
-    const init = async () => {
-      const initialCountdownState = await getFromStorage(COUNTDOWN_STORAGE_KEY);
-      setCountdownState(initialCountdownState);
-    };
-
-    init();
-  }, []);
 
   useEffect(() => {
     const intervalId = setInterval(() => {

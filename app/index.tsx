@@ -14,7 +14,7 @@ import { theme } from "../theme";
 import { orderShoppingListItem } from "../utils/helpers";
 import { getFromStorage, saveToStorage } from "../utils/storage";
 
-const storageKey = "shopping-list";
+const SHOPPING_LIST_KEY = "shopping-list";
 
 export type ShoppingListItemType = {
   id: string;
@@ -36,7 +36,7 @@ export default function App() {
 
   useEffect(() => {
     const fetchInit = async () => {
-      const data = await getFromStorage(storageKey);
+      const data = await getFromStorage(SHOPPING_LIST_KEY);
       if (data) {
         //For more advanced=> reanimated
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -58,13 +58,13 @@ export default function App() {
     ];
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setShoppingList(newShoppingList);
-    saveToStorage(storageKey, newShoppingList);
+    saveToStorage(SHOPPING_LIST_KEY, newShoppingList);
     setValue("");
   };
 
   const handleDelete = (id: string) => {
     const newShoppingList = [...shoppingList].filter((item) => item.id !== id);
-    saveToStorage(storageKey, newShoppingList);
+    saveToStorage(SHOPPING_LIST_KEY, newShoppingList);
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     setShoppingList(newShoppingList);
@@ -88,7 +88,7 @@ export default function App() {
       }
       return item;
     });
-    saveToStorage(storageKey, newShoppingList);
+    saveToStorage(SHOPPING_LIST_KEY, newShoppingList);
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setShoppingList(newShoppingList);
   };
