@@ -3,31 +3,67 @@ import { Duration, intervalToDuration, isBefore } from "date-fns";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import { useEffect, useState } from "react";
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import TimeSegment from "../../components/time-segment";
 import { theme } from "../../theme";
 import { registerForPushNotification } from "../../utils/register-for-push-notification";
+import { getFromStorage, saveToStorage } from "../../utils/storage";
 
 type CountdownType = {
   isOverdue: boolean;
   distance: Duration;
 };
 
-const timeStamp = Date.now() + 10 * 1000;
+const COUNTDOWN_STORAGE_KEY = "taskly-countdown";
+
+type PersistedCountdownState = {
+  currentNotificationId: string | undefined; // to be tracked for canceling
+  completedAtTimestamps: number[]; //for history log
+};
+
+const frequency = 10 * 1000;
 
 export default function CounterScreen() {
+  const [countdownState, setCountdownState] =
+    useState<PersistedCountdownState>();
   const [status, setStatus] = useState<CountdownType>({
     isOverdue: false,
     distance: {},
   });
+  const [isLoading, setIsLoading] = useState(true);
+
+  const lastCompletedAtTimestamp = countdownState?.completedAtTimestamps[0];
+
+  useEffect(() => {
+    const init = async () => {
+      const initialCountdownState = await getFromStorage(COUNTDOWN_STORAGE_KEY);
+      setCountdownState(initialCountdownState);
+    };
+
+    init();
+  }, []);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      const isOverdue = isBefore(timeStamp, Date.now());
+      const timestamp = lastCompletedAtTimestamp
+        ? lastCompletedAtTimestamp + frequency
+        : Date.now();
+
+      if (lastCompletedAtTimestamp) {
+        setIsLoading(false);
+      }
+      const isOverdue = isBefore(timestamp, Date.now());
       const distance = intervalToDuration(
         isOverdue
-          ? { start: timeStamp, end: Date.now() }
-          : { start: Date.now(), end: timeStamp }
+          ? { start: timestamp, end: Date.now() }
+          : { start: Date.now(), end: timestamp }
       );
       setStatus({ distance, isOverdue });
     }, 1000);
@@ -35,14 +71,15 @@ export default function CounterScreen() {
     return () => {
       clearInterval(intervalId);
     };
-  }, []);
+  }, [lastCompletedAtTimestamp]);
 
   const scheduleNotification = async () => {
+    let pushNotificationId;
     const result = await registerForPushNotification();
     if (result === "granted") {
-      await Notifications.scheduleNotificationAsync({
-        content: { title: "I'm a notification from your app" },
-        trigger: { seconds: 5 },
+      pushNotificationId = await Notifications.scheduleNotificationAsync({
+        content: { title: "It's change color time" },
+        trigger: { seconds: frequency / 1000 },
       });
     } else {
       if (Device.isDevice)
@@ -51,7 +88,31 @@ export default function CounterScreen() {
           "Enable the notification permission for Expo Go in settings."
         );
     }
+
+    if (countdownState?.currentNotificationId) {
+      await Notifications.cancelScheduledNotificationAsync(
+        countdownState?.currentNotificationId
+      );
+    }
+
+    const newCountdownState: PersistedCountdownState = {
+      currentNotificationId: pushNotificationId,
+      completedAtTimestamps: countdownState
+        ? [Date.now(), ...countdownState.completedAtTimestamps]
+        : [Date.now()],
+    };
+
+    setCountdownState(newCountdownState);
+    await saveToStorage(COUNTDOWN_STORAGE_KEY, newCountdownState);
   };
+
+  if (countdownState?.currentNotificationId && isLoading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator />
+      </View>
+    );
+  }
   return (
     <View
       style={[
@@ -111,7 +172,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: theme.colorWhite,
   },
   containerLate: {
     backgroundColor: theme.colorRed,
