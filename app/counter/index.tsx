@@ -1,16 +1,20 @@
 /* eslint-disable prettier/prettier */
 import { Duration, intervalToDuration, isBefore } from "date-fns";
 import * as Device from "expo-device";
+import * as Haptics from "expo-haptics";
 import * as Notifications from "expo-notifications";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
+  Dimensions,
   StyleSheet,
   Text,
   TouchableOpacity,
+  // useWindowDimensions,
   View,
 } from "react-native";
+import ConfettiCannon from "react-native-confetti-cannon";
 import TimeSegment from "../../components/time-segment";
 import useCountdownState, {
   COUNTDOWN_STORAGE_KEY,
@@ -25,15 +29,17 @@ type CountdownType = {
   distance: Duration;
 };
 
-const frequency = 10 * 1000;
+const frequency = 2 * 7 * 24 * 60 * 60 * 1000;
 
 export default function CounterScreen() {
+  // const { width,height } = useWindowDimensions();//the good thing is this way adapt responsive landscape or vertical portrait
   const { countdownState, setCountdownState } = useCountdownState();
   const [status, setStatus] = useState<CountdownType>({
     isOverdue: false,
     distance: {},
   });
   const [isLoading, setIsLoading] = useState(true);
+  const confettiRef = useRef<ConfettiCannon>(null);
 
   const lastCompletedAtTimestamp = countdownState?.completedAtTimestamps[0];
 
@@ -61,6 +67,8 @@ export default function CounterScreen() {
   }, [lastCompletedAtTimestamp]);
 
   const scheduleNotification = async () => {
+    confettiRef?.current?.start();
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     let pushNotificationId;
     const result = await registerForPushNotification();
     if (result === "granted") {
@@ -150,6 +158,13 @@ export default function CounterScreen() {
           I&apos;ve done the washing the car
         </Text>
       </TouchableOpacity>
+      <ConfettiCannon
+        ref={confettiRef}
+        count={50}
+        origin={{ x: Dimensions.get("window").width / 2, y: -20 }}
+        fadeOut
+        autoStart={false}
+      />
     </View>
   );
 }
