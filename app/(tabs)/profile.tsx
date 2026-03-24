@@ -1,10 +1,22 @@
+import { useUserStore } from "@/store/userStore";
+import { theme } from "@/theme";
 import React from "react";
-import { Text, View } from "react-native";
+import { Button, StyleSheet, View } from "react-native";
 
 export default function Profile() {
+  const toggleHasOnboarded = useUserStore((state) => state.toggleHasOnboarded);
   return (
-    <View>
-      <Text>Profile</Text>
+    <View style={styles.container}>
+      <Button title="Back to onboarding!" onPress={toggleHasOnboarded} />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: theme.colorWhite,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
