@@ -1,19 +1,20 @@
 import { Stack } from "expo-router";
 
-export default function Layout() {
+export default function RootLayout() {
   return (
     <Stack>
       <Stack.Screen
         name="(tabs)"
         options={{
-          title: "tabs",
-          headerShadowVisible: false,
+          headerShown: false,
+          animation: "fade",
         }}
       />
       <Stack.Screen
         name="onboarding"
         options={{
-          title: "Onboarding",
+          headerShown: false,
+          animation: "fade",
         }}
       />
     </Stack>

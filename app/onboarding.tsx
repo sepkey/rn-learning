@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { useUserStore } from "@/store/userStore";
 import { theme } from "@/theme";
 import { useRouter } from "expo-router";
