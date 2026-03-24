@@ -1,9 +1,10 @@
 import { Entypo, Feather } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
+import { theme } from "../theme";
 
 export default function RootLayout() {
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: "#29b365" }}>
+    <Tabs screenOptions={{ tabBarActiveTintColor: theme.colorGreen }}>
       <Tabs.Screen
         name="index"
         options={{
