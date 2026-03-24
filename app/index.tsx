@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
+import { theme } from "@/theme";
 import { StyleSheet, Text, View } from "react-native";
-import { theme } from "../theme";
 
 export default function App() {
   return (

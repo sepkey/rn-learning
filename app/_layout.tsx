@@ -1,6 +1,6 @@
+import { theme } from "@/theme";
 import { Entypo, Feather } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
-import { theme } from "../theme";
 
 export default function RootLayout() {
   return (
