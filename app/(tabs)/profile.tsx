@@ -1,13 +1,17 @@
+import BusinessButton from "@/components/business-button";
 import { useUserStore } from "@/store/userStore";
 import { theme } from "@/theme";
 import React from "react";
-import { Button, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 export default function Profile() {
   const toggleHasOnboarded = useUserStore((state) => state.toggleHasOnboarded);
   return (
     <View style={styles.container}>
-      <Button title="Back to onboarding!" onPress={toggleHasOnboarded} />
+      <BusinessButton
+        title="Back to onboarding!"
+        onPress={toggleHasOnboarded}
+      />
     </View>
   );
 }

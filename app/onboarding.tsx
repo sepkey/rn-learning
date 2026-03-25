@@ -1,7 +1,8 @@
+import BusinessButton from "@/components/business-button";
 import { useUserStore } from "@/store/userStore";
 import { theme } from "@/theme";
 import { useRouter } from "expo-router";
-import { Button, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 export default function OnboardingScreen() {
   const toggleHasOnboarded = useUserStore((state) => state.toggleHasOnboarded);
@@ -13,7 +14,7 @@ export default function OnboardingScreen() {
 
   return (
     <View style={styles.container}>
-      <Button title="Let me in!" onPress={handlePress} />
+      <BusinessButton title="Let me in!" onPress={handlePress} />
     </View>
   );
 }
