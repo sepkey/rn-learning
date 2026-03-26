@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-evenly",
     alignItems: "center",
+    paddingHorizontal: 8,
   },
   heading: {
     fontSize: 42,

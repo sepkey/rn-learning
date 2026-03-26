@@ -27,7 +27,12 @@ export default function BusinessButton({ onPress, title }: ButtonProps) {
 }
 
 const styles = StyleSheet.create({
-  text: { fontSize: 18, fontWeight: "bold", color: theme.colorWhite },
+  text: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: theme.colorWhite,
+    textAlign: "center",
+  },
   button: {
     paddingHorizontal: 18,
     backgroundColor: theme.colorGreen,
