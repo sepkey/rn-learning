@@ -3,14 +3,8 @@ import BusinessButton from "@/components/business-button";
 import BusinessImage from "@/components/business-image";
 import { theme } from "@/theme";
 import { useState } from "react";
-import {
-  Alert,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { Alert, StyleSheet, Text, TextInput, View } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function New() {
   const [name, setName] = useState<string>();
@@ -35,7 +29,7 @@ export default function New() {
     console.log(name, days, "inputs");
   };
   return (
-    <ScrollView
+    <KeyboardAwareScrollView
       style={styles.container}
       contentContainerStyle={styles.contentContainer}
       keyboardShouldPersistTaps="handled"
@@ -60,7 +54,7 @@ export default function New() {
         autoCapitalize="words"
       />
       <BusinessButton title="Add plant" onPress={handleSubmit} />
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 }
 
