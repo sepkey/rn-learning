@@ -1,9 +1,13 @@
 import React from "react";
 import { Image, useWindowDimensions } from "react-native";
 
-export default function BusinessImage() {
+type Props = {
+  size?: number;
+};
+
+export default function BusinessImage({ size }: Props) {
   const { width } = useWindowDimensions();
-  const imageSize = Math.min(width / 1.5, 400);
+  const imageSize = size ?? Math.min(width / 1.5, 400);
   //require is needed because when the app gets bundled only the files that have require would be included.
   return (
     <Image

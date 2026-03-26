@@ -1,4 +1,4 @@
-import { useUserStore } from "@/store/userStore";
+import { useUserStore } from "@/store/user-store";
 import { theme } from "@/theme";
 import { AntDesign, Entypo, Feather } from "@expo/vector-icons";
 import { Link, Redirect, Tabs } from "expo-router";

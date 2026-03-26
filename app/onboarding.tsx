@@ -1,6 +1,6 @@
 import BusinessButton from "@/components/business-button";
 import BusinessImage from "@/components/business-image";
-import { useUserStore } from "@/store/userStore";
+import { useUserStore } from "@/store/user-store";
 import { theme } from "@/theme";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";

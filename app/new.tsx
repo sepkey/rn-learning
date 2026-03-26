@@ -1,7 +1,9 @@
 /* eslint-disable prettier/prettier */
 import BusinessButton from "@/components/business-button";
 import BusinessImage from "@/components/business-image";
+import { usePlantsStore } from "@/store/plants-store";
 import { theme } from "@/theme";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Alert, StyleSheet, Text, TextInput, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -9,6 +11,8 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 export default function New() {
   const [name, setName] = useState<string>();
   const [days, setDays] = useState<string>();
+  const addPlant = usePlantsStore((state) => state.addPlant);
+  const router = useRouter();
 
   const handleSubmit = () => {
     if (!name) {
@@ -26,8 +30,10 @@ export default function New() {
         "Watering frequency must be a number"
       );
     }
-    console.log(name, days, "inputs");
+    addPlant({ name, wateringFrequencyDays: parseInt(days) });
+    router.navigate("/");
   };
+
   return (
     <KeyboardAwareScrollView
       style={styles.container}

@@ -5,7 +5,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 
 type PlantPayloadType = { name: string; wateringFrequencyDays: number };
 
-type PlantType = {
+export type PlantType = {
   id: string;
   lastWateredAtTimestamp?: number;
 } & PlantPayloadType;
