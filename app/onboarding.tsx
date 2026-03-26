@@ -1,10 +1,11 @@
 import BusinessButton from "@/components/business-button";
+import BusinessImage from "@/components/business-image";
 import { useUserStore } from "@/store/userStore";
 import { theme } from "@/theme";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function OnboardingScreen() {
   const toggleHasOnboarded = useUserStore((state) => state.toggleHasOnboarded);
@@ -22,6 +23,13 @@ export default function OnboardingScreen() {
       style={styles.container}
     >
       <StatusBar style="light" />
+      <View>
+        <Text style={styles.heading}>Plantly</Text>
+        <Text style={styles.tagLine}>
+          Keep your plants healthy and hydrated!
+        </Text>
+      </View>
+      <BusinessImage />
       <BusinessButton title="Let me in!" onPress={handlePress} />
     </LinearGradient>
   );
@@ -31,7 +39,19 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: theme.colorWhite,
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     alignItems: "center",
+  },
+  heading: {
+    fontSize: 42,
+    fontWeight: "bold",
+    color: theme.colorWhite,
+    marginBottom: 12,
+    textAlign: "center",
+  },
+  tagLine: {
+    fontSize: 24,
+    color: theme.colorWhite,
+    textAlign: "center",
   },
 });
