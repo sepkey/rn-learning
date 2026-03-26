@@ -1,3 +1,4 @@
+import { Paths } from "@/paths";
 import { useUserStore } from "@/store/user-store";
 import { theme } from "@/theme";
 import { AntDesign, Entypo, Feather } from "@expo/vector-icons";
@@ -24,7 +25,7 @@ export default function Layout() {
             <Entypo name="leaf" color={color} size={size} />
           ),
           headerRight: () => (
-            <Link href={"/new"} asChild>
+            <Link href={Paths.New} asChild>
               <Pressable style={{ marginRight: 18 }} hitSlop={20}>
                 <AntDesign
                   name="pluscircle"

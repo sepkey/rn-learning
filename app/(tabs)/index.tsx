@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import BusinessButton from "@/components/business-button";
 import PlantCard from "@/components/plant-card";
+import { Paths } from "@/paths";
 import { usePlantsStore } from "@/store/plants-store";
 import { theme } from "@/theme";
 import { useRouter } from "expo-router";
@@ -16,7 +17,7 @@ export default function App() {
       ListEmptyComponent={() => (
         <BusinessButton
           title="Add your first plant!"
-          onPress={() => router.navigate("/new")}
+          onPress={() => router.navigate(Paths.New)}
         />
       )}
       style={styles.container}

@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import BusinessButton from "@/components/business-button";
 import BusinessImage from "@/components/business-image";
+import { Paths } from "@/paths";
 import { usePlantsStore } from "@/store/plants-store";
 import { theme } from "@/theme";
 import { useRouter } from "expo-router";
@@ -31,7 +32,7 @@ export default function New() {
       );
     }
     addPlant({ name, wateringFrequencyDays: parseInt(days) });
-    router.navigate("/");
+    router.navigate(Paths.Home);
   };
 
   return (

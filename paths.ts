@@ -1,5 +1,4 @@
 export const Paths = {
-  Counter: "/counter",
-  Idea: "/idea",
-  History: "/counter/history",
+  Home: "/",
+  New: "/new",
 } as const;

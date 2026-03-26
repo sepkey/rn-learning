@@ -1,5 +1,6 @@
 import BusinessButton from "@/components/business-button";
 import BusinessImage from "@/components/business-image";
+import { Paths } from "@/paths";
 import { useUserStore } from "@/store/user-store";
 import { theme } from "@/theme";
 import { LinearGradient } from "expo-linear-gradient";
@@ -12,7 +13,7 @@ export default function OnboardingScreen() {
   const router = useRouter();
   const handlePress = () => {
     toggleHasOnboarded();
-    router.replace("/");
+    router.replace(Paths.Home);
   };
 
   return (
