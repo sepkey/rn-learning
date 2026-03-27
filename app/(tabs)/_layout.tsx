@@ -12,7 +12,7 @@ export default function Layout() {
   );
 
   if (!hasFinishedOnboarding) {
-    return <Redirect href="/onboarding" />;
+    return <Redirect href={Paths.Onboarding} />;
   }
   return (
     <Tabs screenOptions={{ tabBarActiveTintColor: theme.colorGreen }}>
