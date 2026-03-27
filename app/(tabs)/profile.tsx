@@ -4,7 +4,7 @@ import { theme } from "@/theme";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
-export default function Profile() {
+export default function ProfileScreen() {
   const toggleHasOnboarded = useUserStore((state) => state.toggleHasOnboarded);
   return (
     <View style={styles.container}>

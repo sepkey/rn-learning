@@ -3,4 +3,5 @@ export const Paths = {
   New: "/new",
   Onboarding: "/onboarding",
   Profile: "/profile",
-} as const;
+  Plant: (plantId: string) => `/plants/${plantId}`,
+};
