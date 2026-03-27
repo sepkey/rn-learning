@@ -4,12 +4,21 @@ import BusinessImage from "@/components/business-image";
 import { Paths } from "@/paths";
 import { usePlantsStore } from "@/store/plants-store";
 import { theme } from "@/theme";
+import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Alert, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Alert,
+  Platform,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function New() {
+  const [imageUri, setImageUri] = useState<string>();
   const [name, setName] = useState<string>();
   const [days, setDays] = useState<string>();
   const addPlant = usePlantsStore((state) => state.addPlant);
@@ -35,15 +44,33 @@ export default function New() {
     router.navigate(Paths.Home);
   };
 
+  const handleChooseImage = async () => {
+    if (Platform.OS === "web") return;
+    const result = await ImagePicker.lauchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImageUri(result.assets[0].uri);
+    }
+  };
+
   return (
     <KeyboardAwareScrollView
       style={styles.container}
       contentContainerStyle={styles.contentContainer}
       keyboardShouldPersistTaps="handled"
     >
-      <View style={styles.centered}>
-        <BusinessImage />
-      </View>
+      <TouchableOpacity
+        style={styles.centered}
+        activeOpacity={0.8}
+        onPress={handleChooseImage}
+      >
+        <BusinessImage imageUri={imageUri} />
+      </TouchableOpacity>
       <Text style={styles.label}>Name</Text>
       <TextInput
         value={name}
@@ -72,7 +99,7 @@ const styles = StyleSheet.create({
   },
   centered: {
     alignItems: "center",
-    justifyContent: "center",
+    marginBottom: 24,
   },
   contentContainer: {
     paddingTop: 24,

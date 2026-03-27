@@ -1,9 +1,14 @@
 /* eslint-disable prettier/prettier */
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as FileSystem from "expo-file-system";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-type PlantPayloadType = { name: string; wateringFrequencyDays: number };
+type PlantPayloadType = {
+  name: string;
+  wateringFrequencyDays: number;
+  imageUri?: string;
+};
 
 export type PlantType = {
   id: string;
@@ -13,7 +18,10 @@ export type PlantType = {
 type PlantsStore = {
   nextId: number;
   plants: PlantType[];
-  addPlant: ({ name, wateringFrequencyDays }: PlantPayloadType) => void;
+  addPlant: ({
+    name,
+    wateringFrequencyDays,
+  }: PlantPayloadType) => Promise<void>;
   removePlant: (plantId: string) => void;
   waterPlant: (plantId: string) => void;
 };
@@ -23,7 +31,19 @@ export const usePlantsStore = create(
     (set) => ({
       nextId: 1,
       plants: [],
-      addPlant: ({ name, wateringFrequencyDays }: PlantPayloadType) => {
+      addPlant: async ({
+        name,
+        wateringFrequencyDays,
+        imageUri,
+      }: PlantPayloadType) => {
+        const savedImageUri =
+          FileSystem.documentDirectory +
+          `${new Date().getTime()}-${imageUri?.split("/").slice(-1)[0]}`;
+
+        if (imageUri) {
+          await FileSystem.copyAsync({ from: imageUri, to: savedImageUri });
+        }
+
         set((state) => {
           return {
             ...state,
@@ -32,6 +52,7 @@ export const usePlantsStore = create(
               {
                 name,
                 wateringFrequencyDays,
+                imageUri: imageUri ? savedImageUri : undefined,
                 id: String(state.nextId),
               },
               ...state.plants,

@@ -7,7 +7,7 @@ import BusinessImage from "./business-image";
 export default function PlantCard({ plant }: { plant: PlantType }) {
   return (
     <View style={styles.plantCard}>
-      <BusinessImage size={100} />
+      <BusinessImage size={100} imageUri={plant.imageUri} />
       <View style={styles.details}>
         <Text style={styles.plantName}>{plant.name}</Text>
         <Text style={styles.subtitle}>
